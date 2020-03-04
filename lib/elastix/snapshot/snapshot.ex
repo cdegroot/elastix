@@ -48,7 +48,7 @@ defmodule Elastix.Snapshot.Snapshot do
   all snapshots in that repository. Oterwise, will retrieve information about
   all snapshots.
   """
-  @spec get(String.t(), String.t(), String.t(), Keyword.t()),  :: {:ok, %HTTPoison.Response{}}
+  @spec get(String.t(), String.t(), String.t(), Keyword.t()) :: {:ok, %HTTPoison.Response{}}
   def get(elastic_url, repo_name \\ "", snapshot_name \\ "_all", options \\ []) do
     elastic_url
     |> prepare_url(make_path(repo_name, snapshot_name))
