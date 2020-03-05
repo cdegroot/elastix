@@ -11,12 +11,12 @@ defmodule Elastix.Snapshot.Snapshot do
   @doc """
   Creates a snapshot.
   """
-  @spec create(String.t(), String.t(), String.t(), Map.t(), [tuple()]) ::
+  @spec create(String.t(), String.t(), String.t(), Map.t(), [tuple()], Keyword.t()) ::
           {:ok, %HTTPoison.Response{}}
-  def create(elastic_url, repo_name, snapshot_name, data \\ %{}, query_params \\ []) do
+  def create(elastic_url, repo_name, snapshot_name, data \\ %{}, query_params \\ [], options \\ []) do
     elastic_url
     |> prepare_url(make_path(repo_name, snapshot_name, query_params))
-    |> HTTP.put(JSON.encode!(data))
+    |> HTTP.put(JSON.encode!(data), [], options)
   end
 
   @doc """
@@ -48,11 +48,11 @@ defmodule Elastix.Snapshot.Snapshot do
   all snapshots in that repository. Oterwise, will retrieve information about
   all snapshots.
   """
-  @spec get(String.t(), String.t(), String.t(), Keyword.t()) :: {:ok, %HTTPoison.Response{}}
-  def get(elastic_url, repo_name \\ "", snapshot_name \\ "_all", options \\ []) do
+  @spec get(String.t(), String.t(), String.t()) :: {:ok, %HTTPoison.Response{}}
+  def get(elastic_url, repo_name \\ "", snapshot_name \\ "_all") do
     elastic_url
     |> prepare_url(make_path(repo_name, snapshot_name))
-    |> HTTP.get([], options)
+    |> HTTP.get()
   end
 
   @doc """
