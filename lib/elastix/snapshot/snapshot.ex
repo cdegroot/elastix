@@ -16,7 +16,7 @@ defmodule Elastix.Snapshot.Snapshot do
   def create(elastic_url, repo_name, snapshot_name, data \\ %{}, query_params \\ [], options \\ []) do
     elastic_url
     |> prepare_url(make_path(repo_name, snapshot_name, query_params))
-    |> HTTP.put(JSON.encode!(data), [], options)
+    |> HTTP.put(JSON.encode!(data), [], Keyword.get(options, :httpoison_options, []))
   end
 
   @doc """
@@ -64,7 +64,7 @@ defmodule Elastix.Snapshot.Snapshot do
   def delete(elastic_url, repo_name, snapshot_name, options \\ []) do
     elastic_url
     |> prepare_url(make_path(repo_name, snapshot_name))
-    |> HTTP.delete([], options)
+    |> HTTP.delete([], Keyword.get(options, :httpoison_options, []))
   end
 
   @doc false
